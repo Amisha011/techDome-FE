@@ -12,7 +12,7 @@ const UserAuthForm = (formTypeName) => {
   const Navigate = useNavigate();
   const [passwordShown, setPasswordShown] = useState(false);
   const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [loader, setLoader] = useState(false);
   const regex =
@@ -28,7 +28,7 @@ const UserAuthForm = (formTypeName) => {
       toast.error("Please enter valid  credentials");
       return;
     }
-    if (email.length > 5 && !regex.test(email)) {
+    if (email?.length > 5 && !regex.test(email)) {
       toast.error("You must enter a valid email address");
       return;
     }
@@ -53,11 +53,11 @@ const UserAuthForm = (formTypeName) => {
   };
   const handleSignup = async () => {
     const signUpData = {
-      userName,
+      userName:name,
       email,
       password,
     };
-    if (email === "" || password === "" || userName === "") {
+    if (email === "" || password === "" || name === "") {
       toast.error("All fields are Mandatory");
       return;
     }
@@ -80,7 +80,7 @@ const UserAuthForm = (formTypeName) => {
       .catch((err) => {
 
         setLoader(false);
-        toast.error(err.response.data.error);
+        toast.error(err?.response?.data?.error);
       });
   };
 
@@ -92,13 +92,13 @@ const UserAuthForm = (formTypeName) => {
       {formType === "SignUp" && (
         <Row className="mb-4">
           <Form.Group as={Col} md="12" controlId="name">
-            <Form.Label className="d-flex">User name</Form.Label>
+            <Form.Label className="d-flex">User Name</Form.Label>
             <Form.Control
-              name="userName"
+              
               type="text"
-              placeholder="Enter your username"
-              defaultValue={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              placeholder="Enter your User Name"
+              defaultValue={name}
+              onChange={(e) => setName(e.target.value)}
             ></Form.Control>
           </Form.Group>
         </Row>

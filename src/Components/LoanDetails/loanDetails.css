@@ -1,3 +1,6 @@
+.loanDashboard-conatiner {
+  margin-bottom: 40px;
+}
 .dashboard-header {
   margin: 50px;
   display: flex;
@@ -77,20 +80,20 @@
   text-align: start;
   margin-bottom: 35px;
   font-size: x-large;
-  padding:0px 14px;
+  padding: 0px 14px;
   padding-top: 5px;
 }
-.logOut-btn{
-    background: #f6223a;
-    color: white;
-    border: none;
-    width: 101px;
-    border-radius: 8px;
-    font-weight: 500;
-    height: 40px;
-    font-size: 16px;
-    text-align: center;
-    margin-top: 2px;
+.logOut-btn {
+  background: #f6223a;
+  color: white;
+  border: none;
+  width: 101px;
+  border-radius: 8px;
+  font-weight: 500;
+  height: 40px;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 2px;
 }
 
 /* background-image: linear-gradient(#ffa31d, #e70000); */
@@ -181,4 +184,76 @@
   padding: 10px;
   border: 1px solid #206ffd;
   width: 75px;
+}
+.approveButton {
+  background: #0aad0ad1;
+  border: none;
+  padding: 8px;
+  color: white;
+  font-weight: 700;
+  border-radius: 10px;
+}
+
+@media all and (max-width: 430px) {
+  .banner span {
+    font-size: 13px;
+  }
+  .dashboard-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .dashboard-box {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  .dashboard-box span {
+    margin-right: 10px;
+  }
+  .dashboard-loanDetails {
+    flex-direction: column;
+  }
+  .dashboard-loanDetails h2 {
+    font-size: 18px;
+  }
+  .dashboard-loanDetails button {
+    height: 40px;
+  }
+  .loanDetailContainer {
+    flex-wrap: wrap-reverse;
+  }
+  .loandetails-bottom {
+    flex-wrap: inherit;
+  }
+  .loandetails-top div h2 {
+    font-size: 17px;
+  }
+  .loandetails-top div img {
+    height: 9px;
+  }
+  .loan-body {
+    flex-wrap: wrap;
+  }
+  .loan-body div {
+    width: 50%;
+    display: flex;
+  }
+  .loan-body div span {
+    font-size: 14px;
+  }
+  .approveButton {
+    width: 57px;
+    height: 30px;
+    font-size: 12px;
+    line-height: 10px;
+    margin-top: 14px;
+  }
+  .logOut-btn {
+    width: 77px;
+    height: 31px;
+  }
+  .loan-amount{
+    margin-right: 10px !important;
+  }
 }

@@ -13,7 +13,6 @@ const Login = () => {
       </div>
       <div
         className={`login-right-container`}
-        style={{ padding: " 36px 100px 100px 100px" }}
       >
         <img src={LogoImg} style={{ height: "150px" }}></img>
         <h1 className="mb-1" style={{ textAlign: "start" }}>

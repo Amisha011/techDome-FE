@@ -12,11 +12,14 @@ const LoanDashboard = () => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
   const [allLoans, setAllLoans] = useState([]);
+  const [totalCompleteLoans, setTotalCompleteLoans] = useState(0);
+  const [totalPendingLoans, setTotalPendingLoans] = useState(0);
+  const [totalApprovedLoans, setTotalApprovedLoans] = useState(0);
   const [showLoanDetails, setShowLoanDetails] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [installmnetPayAmount, setInstllmentPayAmount] = useState(0);
-  const [selcetedLoan, setSelectedLoan] = useState({});
-  const [paymentIndex, setPaymentIndex] = useState(0);
+  const [repaymentEnteredAmount, setRepaymentEnteredAmount] = useState(0);
+  const [selectedLoan, setSelectedLoan] = useState({});
+  const [selectedInstallmentIndex, setSelectedInstallmentIndex] = useState(0);
   const [shownewLoanModal, setshowNewLoanModal] = useState(false);
   const [loanTerm, setLoanTerm] = useState(0);
   const [newLoanAmount, setNewLoanAmount] = useState(0);
@@ -48,58 +51,74 @@ const LoanDashboard = () => {
     const response = await axios.get(
       `http://localhost:7000/getAllLoansById/${userId}`
     );
-    setAllLoans(response.data);
+
+    setAllLoans(response?.data);
+    const completeLoans = response?.data?.filter(
+      (obj) => obj?.loanStatus === "Completed"
+    );
+    const totalPendingLoans = response.data.filter(
+      (obj) => obj?.loanStatus === "Pending"
+    );
+    const totalApprovedLoans = response.data.filter(
+      (obj) => obj?.loanStatus === "Approved"
+    );
+    setTotalCompleteLoans(completeLoans.length);
+    setTotalPendingLoans(totalPendingLoans.length);
+    setTotalApprovedLoans(totalApprovedLoans.length);
   };
   const handleInstallmentPayment = async () => {
-    var updatedObject;
     var totalPaid;
-
-    updatedObject = {
-      weeklyAmount: parseInt(installmnetPayAmount),
-      status: "Paid",
-    };
-    totalPaid = selcetedLoan.totalPaidAmount + parseInt(installmnetPayAmount);
-
-    const installment = selcetedLoan.installments;
-    installment[paymentIndex].weeklyAmount = updatedObject?.weeklyAmount;
-    installment[paymentIndex].status = updatedObject?.status;
-
+    const remainingAmount = selectedLoan?.amount - selectedLoan?.totalPaidAmount;
+    if (
+      repaymentEnteredAmount <
+      selectedLoan?.installments[selectedInstallmentIndex]?.weeklyAmount
+    ) {
+      toast.error("Please enter the required Amount");
+      return;
+    } else if (
+      repaymentEnteredAmount > remainingAmount ||
+      repaymentEnteredAmount %
+        selectedLoan?.installments[selectedInstallmentIndex]?.weeklyAmount !==
+        0
+    ) {
+      toast.error("Please enter the amount in a way eg: if installment amount is 100 you can pay 100, 200, 300 but not 120");
+      return;
+    } else {
+      var data = repaymentEnteredAmount;
+      var installmentInex = selectedInstallmentIndex;
+      var arr = selectedLoan?.installments;
+      do {
+        //selectedLoan.installments[installmentInex].status = "Paid";
+        arr[installmentInex].status = "Paid";
+        arr[installmentInex].weeklyAmount =
+          selectedLoan?.installments[installmentInex].weeklyAmount;
+        data -= selectedLoan?.installments[installmentInex]?.weeklyAmount;
+        installmentInex += 1;
+      } while (data > 0);
+    }
+    totalPaid = selectedLoan?.totalPaidAmount + parseInt(repaymentEnteredAmount);
     const res = await axios
-      .patch(`http://localhost:7000/updateInstallments/${selcetedLoan._id}`, {
-        installments: installment,
+      .patch(`http://localhost:7000/updateInstallments/${selectedLoan._id}`, {
+        installments: arr,
         totalPaidAmount: totalPaid,
       })
       .then((res) => {
-        // setSelectedLoan({});
         toast.success("Payment Successfully Completed");
-        const remainingInstallment = selcetedLoan.installments.filter(
-          (obj) => obj.status === "Pending"
-        );const updatedLoanData= allLoans.find((obj)=>obj._id== selcetedLoan._id)
-        console.log(updatedLoanData)
-        console.log("res",res.data)
-        console.log("rem insta", remainingInstallment);
-        const remainingAmount =
-          selcetedLoan.amount - selcetedLoan.totalPaidAmount;
-console.log("rem amt", remainingAmount)
-        const newInstallmentAmount = remainingAmount / remainingInstallment.length;
-        console.log("newInstallmentAmount",newInstallmentAmount)
-        const updatedArray = remainingInstallment.map((data) =>  data.status === "Pending" ? { ...data, weeklyAmount: newInstallmentAmount }: data);
-        console.log(updatedArray);
-        const checkCompletedLoan = selcetedLoan?.installments?.every(
+        const checkCompletedLoan = selectedLoan?.installments?.every(
           (installment) => installment.status === "Paid"
         );
         if (checkCompletedLoan) {
           const res = axios
             .patch(
-              `http://localhost:7000/updateLoanStatus/${selcetedLoan._id}`,
+              `http://localhost:7000/updateLoanStatus/${selectedLoan._id}`,
               {
                 loanStatus: "Completed",
               }
             )
             .then((res) => {
               getallLoans();
-              setPaymentIndex(0);
-              setInstllmentPayAmount(0);
+              setSelectedInstallmentIndex(0);
+              setRepaymentEnteredAmount(0);
               setSelectedLoan({});
               setShowPaymentModal(false);
               setShowLoanDetails(false);
@@ -107,8 +126,8 @@ console.log("rem amt", remainingAmount)
             .catch((err) => toast.err(err));
         } else {
           getallLoans();
-          setPaymentIndex(0);
-          setInstllmentPayAmount(0);
+          setSelectedInstallmentIndex(0);
+          setRepaymentEnteredAmount(0);
           setSelectedLoan({});
           setShowPaymentModal(false);
           setShowLoanDetails(false);
@@ -143,22 +162,22 @@ console.log("rem amt", remainingAmount)
           className="dashboard-box box-1"
           style={{ backgroundImage: "linearradient(#09203F , #537895)" }}
         >
-          <span className="number mb-2">2</span>
+          <span className="number mb-2">{totalCompleteLoans}</span>
           <span className="text">Total Loans</span>
         </div>
         <div
           className="dashboard-box box-2"
           style={{ backgroundImage: "linearradient(#D4145A , #FBB03B)" }}
         >
-          <span className="number mb-2">3</span>
+          <span className="number mb-2">{totalPendingLoans}</span>
           <span className="text">Pending Loans</span>
         </div>
         <div className="dashboard-box box-3">
-          <span className="number mb-2">2</span>
+          <span className="number mb-2">{totalApprovedLoans}</span>
           <span className="text">Approved Loans</span>
         </div>
         <div className="dashboard-box box-4">
-          <span className="number mb-2">2</span>
+          <span className="number mb-2">{totalCompleteLoans}</span>
           <span className="text">Complete Loans</span>
         </div>
       </div>
@@ -174,7 +193,7 @@ console.log("rem amt", remainingAmount)
             <>
               <div className="loanDetailContainer">
                 <div
-                  className="d-flex"
+                  className="d-flex loandetails-top"
                   style={{
                     justifyContent: "space-between",
                     marginBottom: "15px",
@@ -188,14 +207,14 @@ console.log("rem amt", remainingAmount)
                     className="d-flex flex-row"
                     style={{ alignItems: "center" }}
                   >
-                    <h2 style={{ marginRight: "50px", color: "#0c0c73" }}>
-                      {loanData.amount}
+                    <h2  className="loan-amount" style={{ marginRight: "40px", color: "#0c0c73" }}>
+                    Rs.&nbsp;{loanData?.amount}
                     </h2>
                     <OverlayTrigger
                       key="bottom4"
                       placement="bottom"
                       overlay={
-                        loanData.loanStatus !== "Pending" ? (
+                        loanData?.loanStatus !== "Pending" ? (
                           <span></span>
                         ) : (
                           <Tooltip id={`tooltip-bottom`}>
@@ -208,28 +227,29 @@ console.log("rem amt", remainingAmount)
                     >
                       <img
                         onClick={() => {
-                          console.log("clickec", loanData.loanStatus !== "Pending")
-
-                          loanData.loanStatus !== "Pending" &&
+                          if (showLoanDetails) {
+                            setShowLoanDetails(false);
+                            setSelectedLoan({});
+                          } else {
                             setShowLoanDetails(true);
-                          setSelectedLoan(loanData);
-                          console.log(showLoanDetails)
+                            setSelectedLoan(loanData);
+                          }
                         }}
                         src={downArrow}
-                        style={{ height: "15px" }}
+                        style={{ height: "15px", cursor:"pointer" }}
                       ></img>
                     </OverlayTrigger>
                   </div>
                 </div>
                 <div
-                  className="d-flex"
+                  className="d-flex loandetails-bottom"
                   style={{ justifyContent: "space-between" }}
                 >
                   <div>
                     <span className="d-flex">
                       <b style={{ color: "#21c707" }}>Start Date:</b>&nbsp;
                       <p style={{ color: "dimgrey", fontWeight: "700" }}>
-                        {moment(loanData.createdAt).format("Do MMM' YY")}
+                        {moment(loanData?.createdAt).format("Do MMM' YY")}
                       </p>
                     </span>
                   </div>
@@ -237,7 +257,13 @@ console.log("rem amt", remainingAmount)
                     <span className="d-flex">
                       <b style={{ color: "red" }}>End Date:</b>&nbsp;
                       <p style={{ color: "slategrey", fontWeight: "700" }}>
-                        {moment(loanData.createdAt).format("Do MMM' YY")}
+                        {loanData?.installments?.length > 0
+                          ? moment(
+                              loanData?.installments[
+                                loanData?.installments.length - 1
+                              ]?.date
+                            ).format("Do MMM' YY")
+                          : "NA"}
                       </p>
                     </span>
                   </div>
@@ -251,16 +277,16 @@ console.log("rem amt", remainingAmount)
                     <span className="d-flex">
                       <b style={{ color: "chocolate" }}>Loan Status:</b>&nbsp;
                       <p style={{ color: "olivedrab", fontWeight: "700" }}>
-                        {loanData.loanStatus}
+                        {loanData?.loanStatus}
                       </p>
                     </span>
                   </div>
                 </div>
               </div>
-              {showLoanDetails && (
+              {showLoanDetails && loanData?._id === selectedLoan?._id && (
                 <div style={{ margin: "0px 50px" }}>
                   {" "}
-                  {loanData.installments.map((installmentData, index) => {
+                  {loanData?.installments.map((installmentData, index) => {
                     return (
                       <div className="loan-body">
                         <div>
@@ -270,14 +296,14 @@ console.log("rem amt", remainingAmount)
                         </div>
                         <div>
                           <span>
-                            <b>Date</b>
+                            <b>Date: </b>
                             {moment(installmentData?.date).format("Do MMM' YY")}
                           </span>
                         </div>
                         <div>
                           <span>
                             <b>Amount: </b>
-                            {installmentData?.weeklyAmount}
+                           Rs. {installmentData?.weeklyAmount}
                           </span>
                         </div>
                         <div>
@@ -289,17 +315,33 @@ console.log("rem amt", remainingAmount)
                         <div>
                           {installmentData?.status === "Pending" ? (
                             <button
+                              style={{ backgroundColor: "red", width: "72px" }}
                               onClick={() => {
+                                if (
+                                 index > 0 && loanData?.installments[index - 1].status ==
+                                  "Pending" 
+                                ) {
+                                  toast.error(
+                                    "Please Pay The Previous Installment First"
+                                  );
+                                  return;
+                                }
                                 setShowPaymentModal(true);
                                 setSelectedLoan(loanData);
-                                setPaymentIndex(index);
+                                setSelectedInstallmentIndex(index);
                               }}
                               className="approveButton"
                             >
                               Pay
                             </button>
                           ) : (
-                            <span>Paid</span>
+                            <button
+                              disabled={true}
+                              className="approveButton"
+                              style={{ width: "72px" }}
+                            >
+                              Paid
+                            </button>
                           )}
                         </div>
                       </div>
@@ -340,9 +382,9 @@ console.log("rem amt", remainingAmount)
           <span>Amount</span>
           <input
             type="number"
-            defaultValue={installmnetPayAmount}
+            defaultValue={repaymentEnteredAmount}
             placeholder="Enter the Amount"
-            onChange={(e) => setInstllmentPayAmount(e.target.value)}
+            onChange={(e) => setRepaymentEnteredAmount(e.target.value)}
           />
         </Modal.Body>
         <Modal.Footer>

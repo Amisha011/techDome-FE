@@ -14,8 +14,8 @@ function App() {
       {/* <Login/> */}
       <ToastContainer
         position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
+       // autoClose={5000}
+       hideProgressBar
         newestOnTop={false}
         closeOnClick
         rtl={false}
