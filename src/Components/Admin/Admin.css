@@ -1,0 +1,69 @@
+.loanReq-container{
+
+}
+
+.loan-body{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 14px;
+    margin-bottom: 3px;
+    border: 2px solid #80808014;
+    background: white;
+    border-radius: 4px;
+    /* box-shadow: 0 5px 9px rgba(10,30,67,.08); */
+}
+.approveButton{
+    background: #0aad0ad1;
+    border: none;
+    padding: 8px;
+    color: white;
+    font-weight: 700;
+    border-radius: 10px;
+}
+.loanReq-modal .modal-dialog{
+align-items: baseline;
+}
+.loanReq-modal .modal-dialog .modal-content{
+    padding: 30px;
+    }
+.loanReq-modal .modal-dialog .modal-content  .modal-body{
+padding: 0px;
+}
+.loanReq-modal .modal-dialog .modal-content  .modal-body span{
+    font-size: 18px;
+    font-weight: 700;
+}
+.loanReq-modal .modal-dialog .modal-content  .modal-body .btn-container{
+    margin-top: 70px;
+    display: flex;
+    justify-content: end;
+}
+.loanReq-modal .modal-dialog .modal-content  .modal-body .btn-container .cancelBtn{
+    flex: 0 0 115px;
+    margin-right: 15px;
+    background: white;
+    border: 0;
+    border-radius: 6px;
+    box-shadow: none!important;
+    color: #206ffd;
+    padding: 10px;
+    border: 1px solid #206ffd;
+}
+.loanReq-modal .modal-dialog .modal-content  .modal-body .btn-container .YesBtn{
+    flex: 0 0 115px;
+    margin-right: 15px;
+    background: #206ffd;
+    border: 0;
+    border-radius: 6px;
+    box-shadow: none!important;
+    color: white;
+    padding: 10px;
+    border: 1px solid #206ffd;
+}
+.pendingreq-text{
+    text-align: start;
+    font-size: larger;
+    font-weight: 600;
+    margin-top: 61px;
+}

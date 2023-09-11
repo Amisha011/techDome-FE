@@ -1,0 +1,184 @@
+.dashboard-header {
+  margin: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+.dashboard-box {
+  display: flex;
+  padding: 30px;
+  flex-direction: column;
+  background: antiquewhite;
+  min-width: 190px;
+  max-width: 200px;
+  min-height: 128px;
+  max-height: 200px;
+  background: #ededed;
+  border-radius: 12px;
+  box-shadow: 0 5px 9px rgba(10, 30, 67, 0.08);
+}
+.dashboard-box .number {
+  font-size: 50px;
+  font-weight: 800;
+  color: white;
+}
+.dashboard-box .text {
+  font-size: larger;
+  font-style: inherit;
+  font-weight: 600;
+  color: white;
+}
+.box-1 {
+  background-image: linear-gradient(#09203f, #537895);
+}
+.box-2 {
+  background-image: linear-gradient(#ffa31d, #e70000);
+}
+.box-3 {
+  background-image: linear-gradient(#2e3192, #1bffff);
+}
+.box-4 {
+  background-image: linear-gradient(#009245, #bab01c);
+}
+.dashboard-loanDetails {
+  margin: 50px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 80px;
+  margin-bottom: 40px;
+}
+.dashboard-loanDetails h2 {
+  text-align: start;
+}
+.dashboard-loanDetails button {
+  background: #226ef6;
+  color: white;
+  border: none;
+  width: 185px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.loanDetailContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  margin: 10px 50px;
+  padding: 19px 19px;
+  border: 2px solid #80808014;
+  background: white;
+  border-radius: 12px;
+  /* box-shadow: 0 5px 9px rgba(10,30,67,.08); */
+  box-shadow: 0 5px 9px rgb(10 30 67 / 55%);
+}
+.banner {
+  background: gold;
+  height: 54px;
+  font-weight: 600;
+  text-align: start;
+  margin-bottom: 35px;
+  font-size: x-large;
+  padding:0px 14px;
+  padding-top: 5px;
+}
+.logOut-btn{
+    background: #f6223a;
+    color: white;
+    border: none;
+    width: 101px;
+    border-radius: 8px;
+    font-weight: 500;
+    height: 40px;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 2px;
+}
+
+/* background-image: linear-gradient(#ffa31d, #e70000); */
+/* linear-gradient(#009245 , #bab01c) */
+.installmentPayment-modal {
+}
+.installmentPayment-modal .modal-dialog {
+  align-items: baseline;
+}
+.installmentPayment-modal .modal-dialog .modal-content {
+  padding: 25px 33px;
+  border-radius: 28px;
+}
+.installmentPayment-modal .modal-dialog .modal-content .modal-body {
+  margin-top: 27px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 0px;
+}
+.installmentPayment-modal .modal-dialog .modal-content .modal-header {
+  border-bottom: none;
+  /* padding: 2rem 2rem 0px; */
+  font-weight: 700;
+  font-size: 22px;
+  color: rgb(10, 30, 67);
+  padding: 0 !important;
+}
+.installmentPayment-modal .modal-dialog .modal-content .modal-footer {
+  border: none;
+}
+.installmentPayment-modal .modal-dialog .modal-content .modal-body span {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 18px;
+}
+.installmentPayment-modal .modal-dialog .modal-content .modal-body input {
+  border: 1px solid #dee2e6 !important;
+  background: #fefefe;
+  border: 1px solid rgba(10, 30, 67, 0.12);
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #0a1e43;
+  font-family: DM Sans;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 500;
+  height: 50px;
+  line-height: 18px;
+  padding: 30px;
+}
+.installmentPayment-modal
+  .modal-dialog
+  .modal-content
+  .modal-footer
+  .btn-container {
+  margin-top: 70px;
+}
+.installmentPayment-modal
+  .modal-dialog
+  .modal-content
+  .modal-footer
+  .btn-container
+  .cancelBtn {
+  flex: 0 0 115px;
+  margin-right: 15px;
+  background: white;
+  border: 0;
+  border-radius: 6px;
+  box-shadow: none !important;
+  color: #206ffd;
+  padding: 10px;
+  border: 1px solid #206ffd;
+}
+.installmentPayment-modal
+  .modal-dialog
+  .modal-content
+  .modal-footer
+  .btn-container
+  .YesBtn {
+  flex: 0 0 115px;
+  margin-right: 15px;
+  background: #206ffd;
+  border: 0;
+  border-radius: 6px;
+  box-shadow: none !important;
+  color: white;
+  padding: 10px;
+  border: 1px solid #206ffd;
+  width: 75px;
+}

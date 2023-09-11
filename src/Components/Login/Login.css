@@ -1,0 +1,82 @@
+
+.login-page {
+    display: flex;
+    min-height: 100vh;
+}
+
+.login-col {
+    flex: 0 0 50%;
+    max-width: 50%;
+   
+}
+
+.login-col img{
+
+    border-radius: 15px;
+box-shadow: 0 40px 54px rgba(10,30,67,.1);
+margin: 0 auto;
+max-height: 304px;
+max-width: 498px;
+object-fit: contain;
+}
+.login-right-container {
+    padding: 100px;
+}
+
+form.login-form {
+    width: 400px;
+    max-width: 100%;
+}
+
+form.login-form button.solid-button {
+    width: 100%;
+}
+
+
+.login-col.login-left-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #F5F8FA;
+}
+
+img.login-vector {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.login-right-container h1 {
+    margin: 24px 0 24px 0;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 42px;
+    
+}
+
+.login-right-container p {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+text-align: start;
+}
+
+.login-right-container p.sign-up a {
+
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.password-show{
+    position: relative;
+    left: 132px;
+    bottom: 28px;
+    margin: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
