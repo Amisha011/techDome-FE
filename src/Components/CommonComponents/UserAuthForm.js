@@ -34,7 +34,7 @@ const UserAuthForm = (formTypeName) => {
     }
     setLoader(true);
     const response = await axios
-      .post("http://localhost:7000/signin", loginData)
+      .post(`${process.env.REACT_APP_API_URL}/signin`, loginData)
       .then((res) => {
         setLoader(false);
         localStorage.setItem("token", res?.data?.token);
@@ -71,7 +71,7 @@ const UserAuthForm = (formTypeName) => {
     }
     setLoader(true);
     const response = await axios
-      .post("http://localhost:7000/signup", signUpData)
+      .post(`${process.env.REACT_APP_API_URL}/signup`, signUpData)
       .then((res) => {
         setLoader(false);
         toast.success("Account created successfuly");

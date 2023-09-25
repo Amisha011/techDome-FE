@@ -14,7 +14,7 @@ const Admin = () => {
   const userType = localStorage.getItem("userType");
 
   const getallLoans = async () => {
-    const response = await axios.get(`http://localhost:7000/getAllLoans`);
+    const response = await axios.get(`${process.env.REACT_APP_API_URL}/getAllLoans`);
     setAllLoans(response.data);
   };
   const handleApproveLoan = async () => {
@@ -40,7 +40,7 @@ const Admin = () => {
     }
 
     const res = await axios
-      .patch(`http://localhost:7000/updateLoanStatus/${selcetedLoan._id}`, {
+      .patch(`${process.env.REACT_APP_API_URL}/updateLoanStatus/${selcetedLoan._id}`, {
         loanStatus: "Approved",
         installments: installmentObjects,
         loanApproveDate: new Date(),

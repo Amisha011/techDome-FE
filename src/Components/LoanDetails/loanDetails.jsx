@@ -34,22 +34,22 @@ const LoanDashboard = () => {
       loanStatus: "Pending",
     };
     const response = await axios
-      .post("http://localhost:7000/createLoan", formData)
+      .post(`${process.env.REACT_APP_API_URL}/createLoan`, formData)
       .then((res) => {
         setLoader(false);
         toast.success("Loan Created Successfully");
         setshowNewLoanModal(false);
-        getallLoans();
       })
       .catch((err) => {
         setLoader(false);
         setshowNewLoanModal(false);
         toast.error(err?.response?.data?.error);
       });
+       getallLoans();
   };
   const getallLoans = async () => {
     const response = await axios.get(
-      `http://localhost:7000/getAllLoansById/${userId}`
+      `${process.env.REACT_APP_API_URL}/getAllLoansById/${userId}`
     );
 
     setAllLoans(response?.data);
@@ -98,7 +98,7 @@ const LoanDashboard = () => {
     }
     totalPaid = selectedLoan?.totalPaidAmount + parseInt(repaymentEnteredAmount);
     const res = await axios
-      .patch(`http://localhost:7000/updateInstallments/${selectedLoan._id}`, {
+      .patch(`${process.env.REACT_APP_API_URL}/updateInstallments/${selectedLoan._id}`, {
         installments: arr,
         totalPaidAmount: totalPaid,
       })
@@ -110,7 +110,7 @@ const LoanDashboard = () => {
         if (checkCompletedLoan) {
           const res = axios
             .patch(
-              `http://localhost:7000/updateLoanStatus/${selectedLoan._id}`,
+              `${process.env.REACT_APP_API_URL}/updateLoanStatus/${selectedLoan._id}`,
               {
                 loanStatus: "Completed",
               }
