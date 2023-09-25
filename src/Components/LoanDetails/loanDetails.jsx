@@ -173,7 +173,7 @@ const LoanDashboard = () => {
           <span className="text">Pending Loans</span>
         </div>
         <div className="dashboard-box box-3">
-          <span className="number mb-2">{totalApprovedLoans}</span>
+          <span className="number mb-2">{totalApprovedLoans + totalCompleteLoans}</span>
           <span className="text">Approved Loans</span>
         </div>
         <div className="dashboard-box box-4">
